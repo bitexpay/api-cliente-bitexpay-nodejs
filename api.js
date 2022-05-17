@@ -21,17 +21,13 @@ module.exports = function(app) {
     app.get('/api/signature', (req, res) => {
         const body = Signature(req.query);
         const url =  Config.URL + '/api/test/signature?' + qs.stringify(body)
+        console.log(url);
 
-        Request({
-            url: Config.URL + '/api/test/signature?' + qs.stringify(body),
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            json: true,
-        }, function (error, response, body) {
-            res.send({ d: body });
-            console.log(body);
+        fetch(url)
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
         });
     });
 }
