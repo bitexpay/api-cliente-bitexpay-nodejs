@@ -3,7 +3,7 @@ const qs = require('qs');
 const Config = require('./config');
 const Signature = require('./signature');
 
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 module.exports = function(app) {
     app.get('/api/test', (req, res) => {
