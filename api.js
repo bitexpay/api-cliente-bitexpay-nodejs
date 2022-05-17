@@ -11,8 +11,11 @@ module.exports = function(app) {
         console.log(url);
 
         fetch(url)
-        .then(res => res.text())
-        .then(text => console.log(text));
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
     });
 
     app.get('/api/signature', (req, res) => {
