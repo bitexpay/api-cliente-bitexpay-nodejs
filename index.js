@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
 });
 
 const server = app.listen(8888, () => {
-    const host = server.address().address;
-    const port = server.address().port;
-  
-    console.log("node start http://%s:%s", host, port);
+  const host = server.address().address;
+  const port = server.address().port;
+
+  console.log("node start http://%s:%s", host, port);
 });

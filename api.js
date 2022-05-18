@@ -19,9 +19,28 @@ module.exports = function(app) {
 
     app.get('/api/signature', (req, res) => {
         const body = Signature(req.query);
-        const url =  Config.URL + '/api/test/signature?' + qs.stringify(body)
+        const url =  Config.URL + '/api/test/signature?' + qs.stringify(body);
 
         fetch(url)
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
+
+    app.post('/api/order/create', (req, res) => {
+        const body = Signature(req.query);
+        const url =  Config.URL + '/api/receive/order/create';
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            json: true
+        })
         .then(res => res.json())
         .then(text => {
             console.log(text)
