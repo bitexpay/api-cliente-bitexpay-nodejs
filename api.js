@@ -30,7 +30,7 @@ module.exports = function(app) {
     });
 
     app.post('/api/order/create', (req, res) => {
-        const { usd, coin } = req.body.usd;
+        const { usd, coin } = req.body;
         const body = Signature({ usd, coin });
         console.log(body);
 
