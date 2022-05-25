@@ -31,9 +31,10 @@ module.exports = function(app) {
 
     app.post('/api/order/create', (req, res) => {
         const usd = req.body.usd;
-        console.log(req.query);
-        
-        const body = Signature(req.query);
+        const coin = req.body.coin;
+        const body = Signature(req.query, usd, coin);
+        console.log(req.query, body);
+
         const url =  Config.URL + '/api/receive/order/create';
 
         fetch(url, {
