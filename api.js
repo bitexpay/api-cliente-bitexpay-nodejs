@@ -29,9 +29,33 @@ module.exports = function(app) {
         });
     });
 
+    //Crear una orden básica
     app.post('/api/order/create', (req, res) => {
-        const { usd, coin } = req.body;
-        const body = Signature({ usd, coin });
+        const { usd, coin, tipo, monetizar } = req.body;
+        const body = Signature({ usd, coin, tipo, monetizar });
+        console.log(body);
+
+        const url =  Config.URL + '/api/receive/order/create';
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            json: true
+        })
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
+
+    //Crear una orden completa
+    app.post('/api/order/create/full', (req, res) => {
+        const { usd, coin, tipo, monetizar, descripcion, tipo_fee_monetizar, correo, enviarCorreo } = req.body;
+        const body = Signature({ usd, coin, tipo, monetizar, descripcion, tipo_fee_monetizar, correo, enviarCorreo });
         console.log(body);
 
         const url =  Config.URL + '/api/receive/order/create';
