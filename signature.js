@@ -16,6 +16,8 @@ module.exports = function (params) {
     
     const stringTempArray = tempArray.join('&');
     const hmac = Crypto.createHmac('sha256', Config.SECRETKEY);
+
+    //console.log(stringTempArray);
     const signature = hmac.update(stringTempArray).digest('hex');
     object.signature = signature;
 

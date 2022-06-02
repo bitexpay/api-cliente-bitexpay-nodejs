@@ -31,6 +31,7 @@ module.exports = function(app) {
 
     //Crear una orden básica
     app.post('/api/order/create', (req, res) => {
+
         const { usd, coin, tipo, monetizar } = req.body;
         const body = Signature({ usd, coin, tipo, monetizar });
         console.log(body);
@@ -41,7 +42,7 @@ module.exports = function(app) {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             json: true
         })
@@ -54,6 +55,7 @@ module.exports = function(app) {
 
     //Crear una orden completa
     app.post('/api/order/create/full', (req, res) => {
+
         const { usd, coin, tipo, monetizar, descripcion, tipo_fee_monetizar, correo, enviarCorreo } = req.body;
         const body = Signature({ usd, coin, tipo, monetizar, descripcion, tipo_fee_monetizar, correo, enviarCorreo });
         console.log(body);
@@ -64,13 +66,37 @@ module.exports = function(app) {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'origin': 'http://192.168.2.138'
             },
             json: true
         })
         .then(res => res.json())
         .then(text => {
             console.log(text)
+            res.send(text);
+        });
+    });
+
+    app.post('/api/order/cancel', (req, res) => {
+
+        const { id } = req.body;
+        const body = Signature({ id });
+
+        const url = Config.URL + '/api/receive/order/cancel'; 
+        console.log(body);
+        
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'origin': 'http://192.168.2.138'
+            }
+        })
+        .then(res => res.json())
+        .then(text => { 
+            console.log(text);
             res.send(text);
         });
     });
