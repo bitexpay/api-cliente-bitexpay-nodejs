@@ -5,6 +5,7 @@ const Signature = require('./signature');
 const fetch = require('node-fetch');
 
 module.exports = function(app) {
+
     app.get('/api/test', (req, res) => {
         const url =  Config.URL + '/api/test';
         console.log(url);
@@ -32,8 +33,8 @@ module.exports = function(app) {
     //Crear una orden básica
     app.post('/api/order/create', (req, res) => {
 
-        const { usd, coin, tipo, monetizar } = req.body;
-        const body = Signature({ usd, coin, tipo, monetizar });
+        const { usd, coin, tipo, monetizar, enviarCorreo } = req.body;
+        const body = Signature({ usd, coin, tipo, monetizar, enviarCorreo });
         console.log(body);
 
         const url =  Config.URL + '/api/receive/order/create';
@@ -60,7 +61,7 @@ module.exports = function(app) {
         const body = Signature({ usd, coin, tipo, monetizar, descripcion, tipo_fee_monetizar, correo, enviarCorreo });
         console.log(body);
 
-        const url =  Config.URL + '/api/receive/order/create';
+        const url =  Config.URL + '/api/v1/receive/order/create';
 
         fetch(url, {
             method: 'POST',
@@ -78,12 +79,13 @@ module.exports = function(app) {
         });
     });
 
+    //Cancelar una orden
     app.post('/api/order/cancel', (req, res) => {
 
         const { id } = req.body;
         const body = Signature({ id });
 
-        const url = Config.URL + '/api/receive/order/cancel'; 
+        const url = Config.URL + '/api/v1/receive/order/cancel'; 
         console.log(body);
         
         fetch(url, {
@@ -96,6 +98,64 @@ module.exports = function(app) {
         })
         .then(res => res.json())
         .then(text => { 
+            console.log(text);
+            res.send(text);
+        });
+    });
+
+    //Obtener informacion de una orden
+    app.get('/api/order/get', (req, res) => {
+        const body = Signature(req.query);
+        const url =  Config.URL + '/api/v1/receive/order/get?' + qs.stringify(body);
+
+        fetch(url, {
+            headers: {
+                'origin': 'http://192.168.2.138'
+            }
+        })
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
+ 
+    //Obtener ordenes por estado
+    app.get('/api/order/status', (req, res) => {
+
+        const body = Signature(req.query);
+        const url =  Config.URL + '/api/v1/receive/order/status?' + qs.stringify(body);
+
+        fetch(url, {
+            headers: {
+                'origin': 'http://192.168.2.138'
+            }
+        })
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
+
+    app.post('/api/order/pay', (req, res) => {
+        
+        const { coin, wallet, amount } = req.body;
+        const body = Signature({ wallet, coin, amount });
+
+        const url = Config.URL + '/api/v1/receive/order/pay'; 
+        console.log(body);
+
+        fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'origin': 'http://192.168.2.138'
+            },
+            method: 'POST',
+            body: JSON.stringify(body)
+        })
+        .then(res => res.json())
+        .then(text => {
             console.log(text);
             res.send(text);
         });
