@@ -103,7 +103,7 @@ module.exports = function(app) {
         });
     });
 
-    //Obtener informacion de una orden
+    //Obtener informacion de una orden del un usuario
     app.get('/api/order/get', (req, res) => {
         const body = Signature(req.query);
         const url =  Config.URL + '/api/v1/receive/order/get?' + qs.stringify(body);
@@ -120,7 +120,7 @@ module.exports = function(app) {
         });
     });
  
-    //Obtener ordenes por estado
+    //Obtener ordenes por estado de un usuario
     app.get('/api/order/status', (req, res) => {
 
         const body = Signature(req.query);
@@ -138,10 +138,28 @@ module.exports = function(app) {
         });
     });
 
+    //Obtener las ordenes publicas para
+    app.get('/api/order/public', (req, res) => {
+        const body = Signature(req.query);
+        const url =  Config.URL + '/api/v1/receive/order/public?' + qs.stringify(body);
+
+        fetch(url, {
+            headers: {
+                'origin': 'http://192.168.2.138'
+            }
+        })
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
+
+    //Pagar una orden 
     app.post('/api/order/pay', (req, res) => {
         
-        const { coin, wallet, amount } = req.body;
-        const body = Signature({ wallet, coin, amount });
+        const { coin, codeBitexpay, amount } = req.body;
+        const body = Signature({ codeBitexpay, coin, amount });
 
         const url = Config.URL + '/api/v1/receive/order/pay'; 
         console.log(body);
