@@ -178,4 +178,21 @@ module.exports = function(app) {
             res.send(text);
         });
     });
+
+    app.get('/api/my/balance',(req, res) => {
+        
+        const body = Signature(req.query);
+        const url =  Config.URL + '/api/v1/receive/my/balance?' + qs.stringify(body);
+
+        fetch(url, {
+            headers: {
+                'origin': 'http://192.168.2.138'
+            }
+        })
+        .then(res => res.json())
+        .then(text => {
+            console.log(text)
+            res.send(text);
+        });
+    });
 }
