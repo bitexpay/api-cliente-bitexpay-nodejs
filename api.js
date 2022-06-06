@@ -6,30 +6,6 @@ const fetch = require('node-fetch');
 
 module.exports = function(app) {
 
-    app.get('/api/test', (req, res) => {
-        const url =  Config.URL + '/api/test';
-        console.log(url);
-
-        fetch(url)
-        .then(res => res.json())
-        .then(text => {
-            console.log(text)
-            res.send(text);
-        });
-    });
-
-    app.get('/api/signature', (req, res) => {
-        const body = Signature(req.query);
-        const url =  Config.URL + '/api/test/signature?' + qs.stringify(body);
-
-        fetch(url)
-        .then(res => res.json())
-        .then(text => {
-            console.log(text)
-            res.send(text);
-        });
-    });
-
     //Crear una orden básica
     app.post('/api/order/create', (req, res) => {
 
@@ -67,8 +43,7 @@ module.exports = function(app) {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                'Content-Type': 'application/json',
-                'origin': 'http://192.168.2.138'
+                'Content-Type': 'application/json'
             },
             json: true
         })
@@ -92,8 +67,7 @@ module.exports = function(app) {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                'Content-Type': 'application/json',
-                'origin': 'http://192.168.2.138'
+                'Content-Type': 'application/json'
             }
         })
         .then(res => res.json())
@@ -109,9 +83,6 @@ module.exports = function(app) {
         const url =  Config.URL + '/api/v1/receive/order/get?' + qs.stringify(body);
 
         fetch(url, {
-            headers: {
-                'origin': 'http://192.168.2.138'
-            }
         })
         .then(res => res.json())
         .then(text => {
@@ -127,9 +98,6 @@ module.exports = function(app) {
         const url =  Config.URL + '/api/v1/receive/order/status?' + qs.stringify(body);
 
         fetch(url, {
-            headers: {
-                'origin': 'http://192.168.2.138'
-            }
         })
         .then(res => res.json())
         .then(text => {
@@ -144,9 +112,6 @@ module.exports = function(app) {
         const url =  Config.URL + '/api/v1/receive/order/public?' + qs.stringify(body);
 
         fetch(url, {
-            headers: {
-                'origin': 'http://192.168.2.138'
-            }
         })
         .then(res => res.json())
         .then(text => {
@@ -166,8 +131,7 @@ module.exports = function(app) {
 
         fetch(url, {
             headers: {
-                'Content-Type': 'application/json',
-                'origin': 'http://192.168.2.138'
+                'Content-Type': 'application/json'
             },
             method: 'POST',
             body: JSON.stringify(body)
@@ -185,9 +149,6 @@ module.exports = function(app) {
         const url =  Config.URL + '/api/v1/receive/my/balance?' + qs.stringify(body);
 
         fetch(url, {
-            headers: {
-                'origin': 'http://192.168.2.138'
-            }
         })
         .then(res => res.json())
         .then(text => {
