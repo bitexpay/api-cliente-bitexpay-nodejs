@@ -55,7 +55,7 @@ module.exports = function(app) {
     });
 
     //Cancelar una orden
-    app.post('/api/order/cancel', (req, res) => {
+    app.delete('/api/order/cancel', (req, res) => {
 
         const { id } = req.body;
         const body = Signature({ id });
@@ -64,7 +64,7 @@ module.exports = function(app) {
         console.log(body);
         
         fetch(url, {
-            method: 'POST',
+            method: 'DELETE',
             body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ module.exports = function(app) {
     });
 
     //Pagar una orden 
-    app.post('/api/order/pay', (req, res) => {
+    app.put('/api/order/pay', (req, res) => {
         
         const { coin, codeBitexpay, amount } = req.body;
         const body = Signature({ codeBitexpay, coin, amount });
@@ -133,7 +133,7 @@ module.exports = function(app) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(body)
         })
         .then(res => res.json())
