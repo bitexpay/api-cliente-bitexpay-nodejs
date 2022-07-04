@@ -80,7 +80,7 @@ module.exports = function(app) {
     });
 
     //Cancelar una orden
-    app.post('/api/order/cancel', (req, res) => {
+    app.delete('/api/order/cancel', (req, res) => {
 
         const { id } = req.body;
         const body = Signature({ id });
@@ -89,7 +89,7 @@ module.exports = function(app) {
         console.log(body);
         
         fetch(url, {
-            method: 'POST',
+            method: 'DELETE',
             body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ module.exports = function(app) {
 
         fetch(url, {
             headers: {
-                'origin': 'http://192.168.2.138'
+                'origin': 'http://localhost'
             }
         })
         .then(res => res.json())
@@ -156,7 +156,7 @@ module.exports = function(app) {
     });
 
     //Pagar una orden 
-    app.post('/api/order/pay', (req, res) => {
+    app.put('/api/order/pay', (req, res) => {
         
         const { coin, codeBitexpay, amount } = req.body;
         const body = Signature({ codeBitexpay, coin, amount });
@@ -169,7 +169,7 @@ module.exports = function(app) {
                 'Content-Type': 'application/json',
                 'origin': 'http://192.168.2.138'
             },
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(body)
         })
         .then(res => res.json())
@@ -186,7 +186,7 @@ module.exports = function(app) {
 
         fetch(url, {
             headers: {
-                'origin': 'http://192.168.2.138'
+                'origin': 'http://localhost'
             }
         })
         .then(res => res.json())
